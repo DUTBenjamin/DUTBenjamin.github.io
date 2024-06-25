@@ -1,0 +1,10 @@
+
+[编程基础1.pptx](https://github.com/user-attachments/files/15975119/1.pptx)
+[编程基础2.pptx](https://github.com/user-attachments/files/15975122/2.pptx)
+[1115练习赛讲解.pptx](https://github.com/user-attachments/files/15975114/1115.pptx)
+[20231029.pptx](https://github.com/user-attachments/files/15975115/20231029.pptx)
+[20231104.pptx](https://github.com/user-attachments/files/15975116/20231104.pptx)
+[20231111.pptx](https://github.com/user-attachments/files/15975117/20231111.pptx)
+[CodeBlocks集成开发环境安装使用与调试指导.pdf](https://github.com/user-attachments/files/15975118/CodeBlocks.pdf)
+[编程基础3.pptx](https://github.com/user-attachments/files/15975124/3.pptx)
+[新编程基础4.pptx](https://github.com/user-attachments/files/15975126/4.pptx)
