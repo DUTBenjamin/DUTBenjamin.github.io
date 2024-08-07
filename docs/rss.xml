@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>DUTBenjamin的博客</title><link>https://DUTBenjamin.github.io</link><description>记录生活</description><copyright>DUTBenjamin的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/165814040?v=4</url><title>avatar</title><link>https://DUTBenjamin.github.io</link></image><lastBuildDate>Wed, 07 Aug 2024 12:23:14 +0000</lastBuildDate><managingEditor>DUTBenjamin的博客</managingEditor><ttl>60</ttl><webMaster>DUTBenjamin的博客</webMaster><item><title>8.7知识讲解</title><link>https://DUTBenjamin.github.io/post/8.7-zhi-shi-jiang-jie.html</link><description>#数学&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>DUTBenjamin的博客</title><link>https://DUTBenjamin.github.io</link><description>记录生活</description><copyright>DUTBenjamin的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/165814040?v=4</url><title>avatar</title><link>https://DUTBenjamin.github.io</link></image><lastBuildDate>Wed, 07 Aug 2024 12:50:27 +0000</lastBuildDate><managingEditor>DUTBenjamin的博客</managingEditor><ttl>60</ttl><webMaster>DUTBenjamin的博客</webMaster><item><title>8.7知识讲解</title><link>https://DUTBenjamin.github.io/post/8.7-zhi-shi-jiang-jie.html</link><description>#数学&#13;
 ##函数&#13;
 ###函数定义域的求法&#13;
 利用不同函数自身的特点分别求出自变量取值范围，再取交集即可&#13;
@@ -14,8 +14,7 @@
 例：&#13;
 ###奇函数偶函数的性质&#13;
 例：&#13;
-###增函数、减函数&#13;
-例：&#13;
+[###增函数、减函数](https://www.bilibili.com/video/BV13w4m1k7PC/?spm_id_from=333.337.search-card.all.click&amp;vd_source=808b56ca69dce5dfcf08911b659c5122)&#13;
 ###求函数解析式&#13;
 ![微信图片_20240807200213](https://github.com/user-attachments/assets/68f74c82-0a1f-4050-a31d-f3a9f5abf9e0)&#13;
 &#13;
