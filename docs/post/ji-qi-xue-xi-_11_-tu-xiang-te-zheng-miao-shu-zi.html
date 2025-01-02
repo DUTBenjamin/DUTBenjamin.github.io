@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# 图像特征描述子 - HOG与SIFT特征
+## HOG特征
+### 基本原理
+1. **图像梯度计算**
+    - 图像\(f(x, y)\)在点\((x, y)\)的梯度是矢量，\(x\)方向梯度\(g_{x}=\frac{\partial f}{\partial x}=f(x + 1, y) - f(x, y)\)，\(y\)方向梯度\(g_{y}=\frac{\partial f}{\partial y}=f(x, y + 1) - f(x, y)\)，梯度强度\(g = \sqrt{g_{x}^{2}+g_{y}^{2}}\)，梯度方向\(\theta = arctan\frac{g_{x}}{g_{y}}\)。">
+<meta property="og:title" content="机器学习_11_图像特征描述子">
+<meta property="og:description" content="# 图像特征描述子 - HOG与SIFT特征
+## HOG特征
+### 基本原理
+1. **图像梯度计算**
+    - 图像\(f(x, y)\)在点\((x, y)\)的梯度是矢量，\(x\)方向梯度\(g_{x}=\frac{\partial f}{\partial x}=f(x + 1, y) - f(x, y)\)，\(y\)方向梯度\(g_{y}=\frac{\partial f}{\partial y}=f(x, y + 1) - f(x, y)\)，梯度强度\(g = \sqrt{g_{x}^{2}+g_{y}^{2}}\)，梯度方向\(\theta = arctan\frac{g_{x}}{g_{y}}\)。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://DUTBenjamin.github.io/post/ji-qi-xue-xi-_11_-tu-xiang-te-zheng-miao-shu-zi.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>机器学习_11_图像特征描述子</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">机器学习_11_图像特征描述子</h1>
+<div class="title-right">
+    <a href="https://DUTBenjamin.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/DUTBenjamin/DUTBenjamin.github.io/issues/2" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>图像特征描述子 - HOG与SIFT特征</h1>
+<h2>HOG特征</h2>
+<h3>基本原理</h3>
+<ol>
+<li><strong>图像梯度计算</strong>
+<ul>
+<li>图像(f(x, y))在点((x, y))的梯度是矢量，(x)方向梯度(g_{x}=\frac{\partial f}{\partial x}=f(x + 1, y) - f(x, y))，(y)方向梯度(g_{y}=\frac{\partial f}{\partial y}=f(x, y + 1) - f(x, y))，梯度强度(g = \sqrt{g_{x}^{2}+g_{y}^{2}})，梯度方向(\theta = arctan\frac{g_{x}}{g_{y}})。</li>
+<li>当图像存在边缘时，梯度值较大；平滑部分灰度值变化小，梯度也小。(x)方向梯度强化垂直方向特征，(y)方向梯度强化水平方向特征。</li>
+</ul>
+</li>
+<li><strong>HOG特征本质</strong>
+<ul>
+<li>HOG（Histogram of Oriented Gradient）是方向梯度直方图，是CV领域用于物体检测的特征描述子，本质是梯度的统计信息，能反映局部图像的边缘、形状等。由Dalal在CVPR 2005首次提出用于行人检测。</li>
+</ul>
+</li>
+</ol>
+<h3>提取步骤</h3>
+<ol>
+<li><strong>图像预处理</strong>
+<ul>
+<li>检查窗口大小根据应用场景选取（如(64×128)），进行Gamma校正（调节图像对比度，减少光照不均和局部阴影，矫正过曝或曝光不足，(\gamma = 0.67)时扩展高光压缩暗调，(\gamma = 1.5)时相反）和灰度化。</li>
+</ul>
+</li>
+<li><strong>计算图像梯度</strong>
+<ul>
+<li>计算水平和垂直方向梯度强度与方向（梯度图移除非显著性特征，加强显著特征，三通道彩色图取梯度强度最大通道的强度和对应方向）。</li>
+</ul>
+</li>
+<li><strong>计算梯度直方图</strong>
+<ul>
+<li>以(cell)（如(8×8)）为单位计算梯度直方图，每(20°)为一个单元，统计(0 - 180°)的梯度方向，得到(9)个值。根据梯度方向和强度更新直方图，如梯度方向(80°)强度(2)，则(80°)对应值加(2)；方向(10°)强度(4)，(0°)和(20°)对应值各加(2)；方向(165°)强度(85)，(0°)和(160°)的值分别加(21.25)和(63.75)（认为(0°)和(180°)等价）。优点是降低计算量且对光照环境变化鲁棒。</li>
+</ul>
+</li>
+<li><strong>归一化</strong>
+<ul>
+<li>以(block)（如(16×16)，(1)个(block = 4)个(cell)）为单位进行归一化，方法是向量每个值除以向量的模（如((128, 64, 32))归一化后为((0.87, 0.43, 0.22))），使特征描述子不受光照变化影响。</li>
+</ul>
+</li>
+<li><strong>组合成HOG特征向量</strong>
+<ul>
+<li>将所有(block)的归一化梯度直方图组合成HOG特征向量，维度为(36×105 = 3780)（(64×128)大小图像，(7×15 = 105)个(block)，每个(block)有(36)个特征）。梯度直方图主导方向捕捉人的形状（如躯干和腿部）。</li>
+</ul>
+</li>
+</ol>
+<h3>特征特性</h3>
+<ul>
+<li>HOG特征描述子通过统计图像局部区域梯度方向信息表征局部图像区域，类似SIFT特征描述子。但HOG不选取主方向，无旋转梯度方向直方图，本身不具旋转不变性（通过不同旋转方向训练样本实现）和尺度不变性（通过改变检测图像大小实现）。</li>
+</ul>
+<h2>SIFT特征</h2>
+<h3>基本原理</h3>
+<ol>
+<li><strong>SIFT定义与特性</strong>
+<ul>
+<li>SIFT（Scale Invariant Feature Transform）即尺度不变特征转换，用于图像处理，具有尺度不变性，对物体尺度变化、刚体变换、光照强度和遮挡有较好稳定性，可检测关键点，是局部特征描述算子。由British Columbia大学大卫·劳伊（David G. Lowe）教授提出并完善。</li>
+</ul>
+</li>
+<li><strong>解决问题与应用</strong>
+<ul>
+<li>解决目标在不同状态（旋转、缩放、平移、遮挡等）和环境（光照、仿射/投影变换、杂物场景、噪声等）下的图像配准/目标识别跟踪问题，应用于全景图像拼接、物体识别、三维重建等。</li>
+</ul>
+</li>
+<li><strong>特征匹配流程</strong>
+<ul>
+<li>包含找出显著特征点（Feature Detect）、描述特征点（Feature Descriptor）、比较描述相似程度判断是否为同一特征（Feature Match）三步，是计算机视觉应用（如图像配准、摄像机跟踪、三维重建、物体识别、人脸识别）的基础。</li>
+</ul>
+</li>
+</ol>
+<h3>算法实现细节</h3>
+<ol>
+<li><strong>构建尺度空间</strong>
+<ul>
+<li>尺度空间(L(x, y, \sigma)=G(x, y, \sigma) * I(x, y))（(G(x, y, \sigma)=\frac{1}{2\pi\sigma^{2}} exp(-\frac{(x - x_{i})^{2}+(y - y_{i})^{2}}{2\sigma^{2}}))），(\sigma)越小图像越清晰，反之越模糊。早期多尺度用高斯金字塔表述，构建分两步：对图像高斯平滑/模糊，再降采样得到尺寸缩小图像，降采样基础上加高斯滤波体现尺度连续性。一组图像（octave）包括多层（interval）图像。</li>
+<li>传统SIFT通过高斯差分尺度空间（DOG）提取特征点，DOG函数(D(x, y, \sigma)=L(x, y, k\sigma)-L(x, y, \sigma))，计算效率高，是尺度归一化LoG的近似，尺度稳定性好。DOG尺度空间通过相邻尺度高斯平滑后图像相减得到。</li>
+</ul>
+</li>
+<li><strong>特征点定位</strong>
+<ul>
+<li>特征点是不同尺度空间图像下具方向信息的局部极值点，具有尺度、方向、大小特征。先在DOG尺度空间通过点与同尺度(8)个相邻点及上下相邻尺度(9×2)个点共(26)个点比较检测极值点（一个点在DOG尺度空间的(26)个邻域中是最大或最小值时为特征点），再通过曲线拟合DOG函数精确定位（求导令为(0)得到精确位置偏移量，若偏移量大于(0.5)更换特征点重复流程），最后去除不稳定特征点（将精度点值代入泰勒展开式，(|D(\hat{X})| ≥ 0.03)保留，否则丢弃；去除DoG算子产生的边缘响应点，通过(2×2)的Hessian矩阵(H)判断，(\frac{Tr^{2}(H)}{Det(H)}=\frac{(\lambda_{1} / \lambda_{2}+1)^{2}}{\lambda_{1} / \lambda_{2}} ≤\frac{(10 + 1)^{2}}{10})保留，否则丢弃）。</li>
+</ul>
+</li>
+<li><strong>特征点主方向确定</strong>
+<ul>
+<li>计算以特征点为中心的邻域（窗口）内像素梯度方向和幅值，统计梯度方向直方图确定主方向（峰值方向），特殊情况（如最大峰值小于(80%)第二峰值）时可能有多个主方向或需进一步处理。</li>
+</ul>
+</li>
+<li><strong>特征描述</strong>
+<ul>
+<li>以特征点为中心根据主方向取(4)个(4×4)窗口，对梯度幅值图高斯平滑，在每个(4×4)子区域绘制(8)个方向的梯度幅值加权直方图形成种子点，实际应用中为增强匹配稳健性，用(16)个种子点描述，得到(4×4×8 = 128)维SIFT特征向量。</li>
+</ul>
+</li>
+<li><strong>特征匹配</strong>
+<ul>
+<li>基本假设是通过特征描述子间欧式距离判断匹配程度，距离越小匹配度越高。基本思路是距离小于阈值则匹配成功，常用距离度量函数有固定阈值、最近邻、最近邻比值法（距离最近和次近特征点距离比值小于阈值时，将最近点作为匹配点）。</li>
+</ul>
+</li>
+</ol>
+<h3>算法扩展与改进</h3>
+<ul>
+<li>SIFT算法存在实时性不高、特征点少、对边缘模糊目标提取特征点不准确等缺陷，后续有PCA - SIFT（利用主成分分析降维化简SIFT算子描述子）、CSIFT（针对彩色图像提取不变特征）、SURF（计算量小、速度快，特征点与SIFT几乎相同）等改进算法。SIFT、PCA - SIFT与SURF在时间、尺度、旋转、模糊、光照、仿射等方面性能各有优劣。</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://DUTBenjamin.github.io">DUTBenjamin的博客</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","DUTBenjamin/DUTBenjamin.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+
+
+</html>
