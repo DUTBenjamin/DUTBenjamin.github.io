@@ -4,10 +4,8 @@
     "avatarUrl":"https://avatars.githubusercontent.com/u/165814040?v=4",
     "GMEEK_VERSION":"last"
     "email":"18637571823@163.com",
-    "startSite":"01/1/2025",
-    "onePageListNum":15,
-    "singlePage":["about"],
-    "iconList":{"music":"https://th.bing.com/th?id=ODLS.08f56e86-962a-4f3d-a18d-ce003b52590a&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},
+    "singlePage":["music"],
+    "iconList":{"music":"https://pic3.zhimg.com/80/v2-92d475f7a6938a51f5024fb1114e652a_qhd.jpg"},
     "exlink":{"music":"https://music.163.com/"},
     "commentLabelColor":"#006b75",
     "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
@@ -17,8 +15,6 @@
     "dayTheme":"light",
     "nightTheme":"dark_colorblind",
     "urlMode":"pinyin",
-    "showPostSource":1,
-    "rssSplit":"sentence",
     "bottomText":"转载请注明出处",
-    "needComment":0,
+    "needComment":1
 }
