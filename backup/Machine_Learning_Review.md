@@ -19,5 +19,3 @@
 [11-CV领域特征描述子2-SIFT特征.pdf](https://github.com/user-attachments/files/18296211/11-CV.2-SIFT.pdf)
 [12-神经网络基础.pdf](https://github.com/user-attachments/files/18296212/12-.pdf)
 [13-复习.pdf](https://github.com/user-attachments/files/18296213/13-.pdf)
-
-
