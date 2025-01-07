@@ -1,8 +1,12 @@
-#知识点合计
+# 知识点合计
 
 [知识点全集.pdf](https://github.com/user-attachments/files/18296195/default.pdf)
 
-#课件
+# 习题
+https://blog.csdn.net/wdnshadow/category_12071437.html
+https://blog.csdn.net/weixin_51506598/article/details/131116899
+
+# 课件
 
 [01-绪论1-机器学习发展沿革和基本术语.pdf](https://github.com/user-attachments/files/18296198/01-.1-.pdf)
 [01-绪论2-模型评估与选择方法.pdf](https://github.com/user-attachments/files/18296200/01-.2-.pdf)
