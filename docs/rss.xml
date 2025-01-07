@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>DUTBenjamin的博客</title><link>https://DUTBenjamin.github.io</link><description>Hello World!</description><copyright>DUTBenjamin的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/165814040?v=4</url><title>avatar</title><link>https://DUTBenjamin.github.io</link></image><lastBuildDate>Fri, 03 Jan 2025 03:39:48 +0000</lastBuildDate><managingEditor>DUTBenjamin的博客</managingEditor><ttl>60</ttl><webMaster>DUTBenjamin的博客</webMaster><item><title>College_Physics</title><link>https://DUTBenjamin.github.io/post/College_Physics.html</link><description>#课件&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>DUTBenjamin的博客</title><link>https://DUTBenjamin.github.io</link><description>Hello World!</description><copyright>DUTBenjamin的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/165814040?v=4</url><title>avatar</title><link>https://DUTBenjamin.github.io</link></image><lastBuildDate>Tue, 07 Jan 2025 02:35:52 +0000</lastBuildDate><managingEditor>DUTBenjamin的博客</managingEditor><ttl>60</ttl><webMaster>DUTBenjamin的博客</webMaster><item><title>College_Physics</title><link>https://DUTBenjamin.github.io/post/College_Physics.html</link><description># 课件&#13;
 &#13;
 [1_稳恒磁场1-A04.pdf](https://github.com/user-attachments/files/18296229/1_.1-A04.pdf)&#13;
 [2_稳恒磁场2-磁力.pdf](https://github.com/user-attachments/files/18296231/2_.2-.pdf)&#13;
@@ -24,11 +24,11 @@
 [电磁感应2-自感与互感 磁能.pdf](https://github.com/user-attachments/files/18296239/2-.pdf)&#13;
 [电磁感应3-位移电流 Maxwell方程组 电磁场.pdf](https://github.com/user-attachments/files/18296240/3-.Maxwell.pdf)&#13;
 &#13;
-#真题&#13;
+# 真题&#13;
 &#13;
 [2008-2021大物考题（含有部分答案）.pdf](https://github.com/user-attachments/files/18296259/2008-2021.pdf)&#13;
 &#13;
-#笔记&#13;
+# 笔记&#13;
 &#13;
 [电磁感应.pdf](https://github.com/user-attachments/files/18296261/default.pdf)&#13;
 [光学.pdf](https://github.com/user-attachments/files/18296262/default.pdf)&#13;
